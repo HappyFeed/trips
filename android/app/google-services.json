@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "655567049104",
+    "project_id": "tripsapp-69ecf",
+    "storage_bucket": "tripsapp-69ecf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655567049104:android:e9935c054a24390acde315",
+        "android_client_info": {
+          "package_name": "com.example.trips_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655567049104-1h165cmrc6v6gi0ltbj3e5hsms7s8ddk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmCiJki30K5ClzWxPH7H-SxN4PV1d7saE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655567049104-1h165cmrc6v6gi0ltbj3e5hsms7s8ddk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

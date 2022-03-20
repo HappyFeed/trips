@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'gradient_back.dart';
-import 'card_image_list.dart';
+import '../../../widgets/gradient_back.dart';
+import '../widgets/card_image_list.dart';
 
 class HeaderAppbar extends StatelessWidget {
   @override
@@ -8,7 +8,7 @@ class HeaderAppbar extends StatelessWidget {
     // TODO: implement build
     return Stack(
       children: <Widget>[
-        GradientBack("Bienvenido"),
+        GradientBack("Bienvenido", 250.0),
         CardImageList(),
       ],
     );
