@@ -7,13 +7,13 @@ class Place {
   String description;
   String uriImage;
   int? likes;
-  User? userOwner;
+  //User? userOwner;
 
   Place(
       {Key? key,
       required this.name,
       required this.description,
       required this.uriImage,
-      this.userOwner,
+      //this.userOwner,
       this.likes});
 }

@@ -7,27 +7,32 @@ import '../widgets/user_info.dart';
 import '../widgets/button_bar.dart';
 
 class ProfileHeader extends StatelessWidget {
-  late UserBloc userBloc;
   late UserModel user;
+
+  ProfileHeader(@required this.user);
 
   @override
   Widget build(BuildContext context) {
-    userBloc = BlocProvider.of<UserBloc>(context);
+    final title = Text(
+      'Profile',
+      style: TextStyle(
+          fontFamily: 'Lato',
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 30.0),
+    );
 
-    return StreamBuilder(
-      stream: userBloc.streamFirebase,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return CircularProgressIndicator();
-          case ConnectionState.none:
-            return CircularProgressIndicator();
-          case ConnectionState.active:
-            return showProfileData(snapshot);
-          case ConnectionState.done:
-            return showProfileData(snapshot);
-        }
-      },
+    return Container(
+      margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 50.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[title],
+          ),
+          UserInfoW(user),
+          ButtonsBar()
+        ],
+      ),
     );
   }
 
@@ -45,11 +50,7 @@ class ProfileHeader extends StatelessWidget {
       );
     } else {
       print("logeado");
-      user = UserModel(
-          key: key,
-          name: snapshot.data.displayName,
-          email: snapshot.data.email,
-          photoUrl: snapshot.data.photoURL);
+
       final title = Text(
         'Profile',
         style: TextStyle(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
@@ -10,6 +11,7 @@ import 'package:trips_app/User/repository/cloud_firestore_repository.dart';
 
 import '../../Place/model/place.dart';
 import '../../Place/repository/firebase_storage_repository.dart';
+import '../ui/widgets/profile_place.dart';
 
 class UserBloc implements Bloc {
   final _authRepository = AuthRepository();
@@ -45,6 +47,21 @@ class UserBloc implements Bloc {
     // image, real file to store
     return _firebaseStorageRepository.uploadFile(path, image);
   }
+
+  Stream<QuerySnapshot> placesListStream = FirebaseFirestore.instance
+      .collection(CloudFirestoreAPI().PLACES)
+      .snapshots();
+  Stream<QuerySnapshot> get placesStream => placesListStream;
+  List<ProfilePlace> mybuildPlaces(List<DocumentSnapshot> placesListSnapshot) =>
+      _cloudFirestoreRepository.buildMyPlaces(placesListSnapshot);
+
+  Stream<QuerySnapshot> myPlacesListStream(String uid) => FirebaseFirestore
+      .instance
+      .collection(CloudFirestoreAPI().PLACES)
+      .where("userOwner",
+          isEqualTo: FirebaseFirestore.instance
+              .doc("${CloudFirestoreAPI().USERS}/${uid}"))
+      .snapshots();
 
   signOut() {
     _authRepository.signOut();

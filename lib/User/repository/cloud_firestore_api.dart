@@ -3,6 +3,7 @@ import 'package:trips_app/User/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import '../../Place/model/place.dart';
+import '../ui/widgets/profile_place.dart';
 
 class CloudFirestoreAPI {
   final String USERS = "users";
@@ -43,5 +44,18 @@ class CloudFirestoreAPI {
         });
       });
     });
+  }
+
+  List<ProfilePlace> buildMyPlaces(List<DocumentSnapshot> placesListSnapshot) {
+    List<ProfilePlace> profilePlaces = [];
+    placesListSnapshot.forEach((p) {
+      profilePlaces.add(ProfilePlace(Place(
+          name: p['name'],
+          description: p['descrption'],
+          uriImage: p['urlImage'],
+          likes: p['likes'])));
+    });
+
+    return profilePlaces;
   }
 }

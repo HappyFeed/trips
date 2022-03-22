@@ -71,7 +71,7 @@ class _SignInScreen extends State<SignInScreen> {
                   userBloc.signOut();
                   userBloc.signIn().then((UserCredential? user) {
                     userBloc.updateUserData(userModel.UserModel(
-                      uid: user?.user!.uid,
+                      uid: (user?.user!.uid).toString(),
                       name: (user?.user!.displayName).toString(),
                       email: (user?.user!.email).toString(),
                       photoUrl: (user?.user!.photoURL).toString(),
