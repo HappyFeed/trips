@@ -3,6 +3,7 @@ import 'package:trips_app/User/model/user.dart';
 import 'package:trips_app/User/ui/widgets/profile_place.dart';
 
 import '../../Place/model/place.dart';
+import '../../Place/ui/widgets/card_image.dart';
 import 'cloud_firestore_api.dart';
 
 class CloudFirestoreRepository {
@@ -16,4 +17,7 @@ class CloudFirestoreRepository {
 
   List<ProfilePlace> buildMyPlaces(List<DocumentSnapshot> placesListSnapshot) =>
       _cloudFirestoreAPI.buildMyPlaces(placesListSnapshot);
+
+  List<CardImage> buildPlaces(List<DocumentSnapshot> placesListSnapshot) =>
+      _cloudFirestoreAPI.buildPlaces(placesListSnapshot);
 }
