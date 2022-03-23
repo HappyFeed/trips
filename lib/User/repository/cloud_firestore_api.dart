@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:trips_app/User/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-
 import '../../Place/model/place.dart';
-import '../../Place/ui/widgets/card_image.dart';
 import '../ui/widgets/profile_place.dart';
 
 class CloudFirestoreAPI {
@@ -62,19 +58,44 @@ class CloudFirestoreAPI {
     return profilePlaces;
   }
 
-  List<CardImage> buildPlaces(List<DocumentSnapshot> placesListSnapshot) {
-    List<CardImage> cardPlaces = [];
-    IconData iconData = Icons.favorite_border;
-    placesListSnapshot.forEach((p) {
-      cardPlaces.add(CardImage(
-          pathImage: p["urlImage"],
-          height: 300.0,
-          width: 250.0,
-          left: 20.0,
-          onPressedFabIcon: () {},
-          iconData: iconData));
-    });
+  List<Place> buildPlaces(
+      List<DocumentSnapshot> placesListSnapshot, UserModel user) {
+    List<Place> places = [];
 
-    return cardPlaces;
+    placesListSnapshot.forEach((p) {
+      Place place = Place(
+        id: p.id,
+        name: p.get("name"),
+        description: p.get("description"),
+        uriImage: p.get("urlImage"),
+        likes: p.get("likes"),
+      );
+      List? usersLikedRefs = p.get("usersLiked");
+      place.liked = false;
+      usersLikedRefs?.forEach((drUL) {
+        if (user.uid == drUL.documentID) {
+          place.liked = true;
+        }
+      });
+      places.add(place);
+    });
+    return places;
+  }
+
+  Future likePlace(Place place, String uid) async {
+    await _db
+        .collection(PLACES)
+        .doc(place.id)
+        .get()
+        .then((DocumentSnapshot ds) {
+      int likes = ds.get("likes");
+
+      _db.collection(PLACES).doc(place.id).set({
+        'likes': place.liked ? likes + 1 : likes - 1,
+        'usersLiked': place.liked
+            ? FieldValue.arrayUnion([_db.doc("${USERS}/${uid}")])
+            : FieldValue.arrayRemove([_db.doc("${USERS}/${uid}")])
+      });
+    });
   }
 }

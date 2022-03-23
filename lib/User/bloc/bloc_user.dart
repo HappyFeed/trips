@@ -11,7 +11,6 @@ import 'package:trips_app/User/repository/cloud_firestore_repository.dart';
 
 import '../../Place/model/place.dart';
 import '../../Place/repository/firebase_storage_repository.dart';
-import '../../Place/ui/widgets/card_image.dart';
 import '../ui/widgets/profile_place.dart';
 
 class UserBloc implements Bloc {
@@ -53,10 +52,11 @@ class UserBloc implements Bloc {
       .collection(CloudFirestoreAPI().PLACES)
       .snapshots();
   Stream<QuerySnapshot> get placesStream => placesListStream;
+
+//MyPlaces
   List<ProfilePlace> mybuildPlaces(List<DocumentSnapshot> placesListSnapshot) =>
       _cloudFirestoreRepository.buildMyPlaces(placesListSnapshot);
 
-  //MyPlaces
   Stream<QuerySnapshot> myPlacesListStream(String uid) => FirebaseFirestore
       .instance
       .collection(CloudFirestoreAPI().PLACES)
@@ -66,9 +66,13 @@ class UserBloc implements Bloc {
       .snapshots();
 
   //Places
-  List<CardImage> buildPlaces(List<DocumentSnapshot> placesListSnapshot) =>
-      _cloudFirestoreRepository.buildPlaces(placesListSnapshot);
+  List<Place> buildPlaces(
+          List<DocumentSnapshot> placesListSnapshot, UserModel user) =>
+      _cloudFirestoreRepository.buildPlaces(placesListSnapshot, user);
+  Future likePlace(Place place, String uid) =>
+      _cloudFirestoreRepository.likePlace(place, uid);
 
+  //Log out
   signOut() {
     _authRepository.signOut();
   }

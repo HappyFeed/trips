@@ -10,14 +10,17 @@ class CardImage extends StatelessWidget {
   double left;
   VoidCallback onPressedFabIcon;
   final IconData iconData;
+  bool internet;
 
-  CardImage(
-      {required this.pathImage,
-      required this.height,
-      required this.width,
-      required this.left,
-      required this.onPressedFabIcon,
-      required this.iconData});
+  CardImage({
+    required this.pathImage,
+    required this.height,
+    required this.width,
+    required this.left,
+    required this.onPressedFabIcon,
+    required this.iconData,
+    this.internet = true,
+  });
 
   @override
   Widget build(BuildContext context) {
